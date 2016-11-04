@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Blackjack</title>
+	<style type="text/css">
+		#cards img, #shuffled img { height: 50px; float: left; margin: 5px; }
+	</style>
+	     
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	
+	<script>
+		
+		var deckLength = 0;
+		function getNewDeck() {
+			var deck = [];
+			var suits = ['clubs','spades','diamonds','hearts'];
+			var face = ['king', 'queen', 'jack', 'ace']
+			
+			var king = [];
+			var queen = [];
+			var jack = [];
+			var ace = [];
+			/**
+			* build an array of card objects. A single card object should look like the following:
+			*	{suit: 'clubs', face: 'jack', value: 11}
+			*	or
+			*	{suit: 'hearts', face: 2, value: 2}
+			**/
+			
+			function card(suit, face, value) {
+				this.suit = suit,
+				this.face = face,
+				this.value = value
+			}
+			for(var i =0; i<suits.length; i++){
+				for(var j =2; j<11; j++){
+					deck.push(card[j] = new card(suits[i], j.toString(), j));
+				}
+				//kings
+					deck.push(king[i] = new card(suits[i], 'king', 10));
+				//jacks
+					deck.push(jack[i] = new card(suits[i], 'jack', 10));
+				//queens
+					deck.push(queen[i] = new card(suits[i], 'queen', 10));
+				//aces
+					deck.push(ace[i] = new card(suits[i], 'ace', 11));
+			}
+			return deck;
+
+		 }
+		 var newDeck = [];
+		 function shuffleDeck(deck) {
+			
+			/**
+			* Write the code to shuffle the deck.
+			* You'll use push and splice methods here
+			**/
+			var randomNum = 0;
+			while(deck.length > 0){
+			randomNum = Math.floor((Math.random() * deck.length) + 0);
+			newDeck.push(deck[randomNum]);
+			deck.splice(randomNum, 1);
+			}
+			return newDeck;
+			
+		}
+		function printDeck(deck) {
+			
+			var cards = '<img src="cards/' + deck[0].face + '_' + 'of' + '_' + deck[0].suit + '.png">' + '<img src="cards/' + deck[1].face + '_' + 'of' + '_' + deck[1].suit + '.png">' +'<img src="cards/' + deck[2].face + '_' + 'of' + '_' + deck[2].suit + '.png">' +'<img src="cards/' + deck[3].face + '_' + 'of' + '_' + deck[3].suit + '.png">' +'<img src="cards/' + deck[4].face + '_' + 'of' + '_' + deck[4].suit + '.png">' +'<img src="cards/' + deck[5].face + '_' + 'of' + '_' + deck[5].suit + '.png">' +'<img src="cards/' + deck[6].face + '_' + 'of' + '_' + deck[6].suit + '.png">' +'<img src="cards/' + deck[7].face + '_' + 'of' + '_' + deck[7].suit + '.png">' +'<img src="cards/' + deck[8].face + '_' + 'of' + '_' + deck[8].suit + '.png">' +'<img src="cards/' + deck[9].face + '_' + 'of' + '_' + deck[9].suit + '.png">' +'<img src="cards/' + deck[10].face + '_' + 'of' + '_' + deck[10].suit + '.png">'+'<img src="cards/' + deck[11].face + '_' + 'of' + '_' + deck[11].suit + '.png">'+'<img src="cards/' + deck[12].face + '_' + 'of' + '_' + deck[12].suit + '.png">'+'<img src="cards/' + deck[13].face + '_' + 'of' + '_' + deck[13].suit + '.png">'+'<img src="cards/' + deck[14].face + '_' + 'of' + '_' + deck[14].suit + '.png">'+'<img src="cards/' + deck[15].face + '_' + 'of' + '_' + deck[15].suit + '.png">'+'<img src="cards/' + deck[16].face + '_' + 'of' + '_' + deck[16].suit + '.png">'+'<img src="cards/' + deck[17].face + '_' + 'of' + '_' + deck[17].suit + '.png">'+'<img src="cards/' + deck[18].face + '_' + 'of' + '_' + deck[18].suit + '.png">'+'<img src="cards/' + deck[19].face + '_' + 'of' + '_' + deck[19].suit + '.png">'+'<img src="cards/' + deck[20].face + '_' + 'of' + '_' + deck[20].suit + '.png">'+'<img src="cards/' + deck[21].face + '_' + 'of' + '_' + deck[21].suit + '.png">'+'<img src="cards/' + deck[22].face + '_' + 'of' + '_' + deck[22].suit + '.png">'+'<img src="cards/' + deck[23].face + '_' + 'of' + '_' + deck[23].suit + '.png">'+'<img src="cards/' + deck[24].face + '_' + 'of' + '_' + deck[24].suit + '.png">'+'<img src="cards/' + deck[25].face + '_' + 'of' + '_' + deck[25].suit + '.png">'+'<img src="cards/' + deck[26].face + '_' + 'of' + '_' + deck[26].suit + '.png">'+'<img src="cards/' + deck[27].face + '_' + 'of' + '_' + deck[27].suit + '.png">'+'<img src="cards/' + deck[28].face + '_' + 'of' + '_' + deck[28].suit + '.png">'+'<img src="cards/' + deck[29].face + '_' + 'of' + '_' + deck[29].suit + '.png">'+'<img src="cards/' + deck[30].face + '_' + 'of' + '_' + deck[30].suit + '.png">'+'<img src="cards/' + deck[31].face + '_' + 'of' + '_' + deck[31].suit + '.png">'+'<img src="cards/' + deck[32].face + '_' + 'of' + '_' + deck[32].suit + '.png">'+'<img src="cards/' + deck[33].face + '_' + 'of' + '_' + deck[33].suit + '.png">'+'<img src="cards/' + deck[34].face + '_' + 'of' + '_' + deck[34].suit + '.png">'+'<img src="cards/' + deck[35].face + '_' + 'of' + '_' + deck[35].suit + '.png">'+'<img src="cards/' + deck[36].face + '_' + 'of' + '_' + deck[36].suit + '.png">'+'<img src="cards/' + deck[37].face + '_' + 'of' + '_' + deck[37].suit + '.png">'+'<img src="cards/' + deck[38].face + '_' + 'of' + '_' + deck[38].suit + '.png">'+'<img src="cards/' + deck[39].face + '_' + 'of' + '_' + deck[39].suit + '.png">'+'<img src="cards/' + deck[40].face + '_' + 'of' + '_' + deck[40].suit + '.png">'+'<img src="cards/' + deck[41].face + '_' + 'of' + '_' + deck[41].suit + '.png">'+'<img src="cards/' + deck[42].face + '_' + 'of' + '_' + deck[42].suit + '.png">'+'<img src="cards/' + deck[42].face + '_' + 'of' + '_' + deck[42].suit + '.png">'+'<img src="cards/' + deck[43].face + '_' + 'of' + '_' + deck[43].suit + '.png">'+'<img src="cards/' + deck[44].face + '_' + 'of' + '_' + deck[44].suit + '.png">'+'<img src="cards/' + deck[45].face + '_' + 'of' + '_' + deck[45].suit + '.png">'+'<img src="cards/' + deck[46].face + '_' + 'of' + '_' + deck[46].suit + '.png">'+'<img src="cards/' + deck[47].face + '_' + 'of' + '_' + deck[47].suit + '.png">'+'<img src="cards/' + deck[48].face + '_' + 'of' + '_' + deck[48].suit + '.png">'+'<img src="cards/' + deck[49].face + '_' + 'of' + '_' + deck[49].suit + '.png">'+'<img src="cards/' + deck[50].face + '_' + 'of' + '_' + deck[50].suit + '.png">'+'<img src="cards/' + deck[51].face + '_' + 'of' + '_' + deck[51].suit + '.png">';
+			
+			
+			
+			
+			/**
+			* Create a string that represents all the cards in the deck.
+			* This will be a string of "<img ...><img ...>" tags that represent the cards in the deck
+			**/
+			return cards;
+		}
+		
+		function game() {
+			var deck = getNewDeck();
+			$('#cards').html(printDeck(deck));
+			var deck = shuffleDeck(deck);
+			$('#shuffled').html(printDeck(deck));
+		}
+		
+	</script>
+</head>
+<body>
+	<h1>Blackjack</h1>
+	<div><button onclick="game();">Show Deck</button></div>
+	<h2>New Deck</h2>
+	<div id="cards">
+	</div>
+	<h2>Sorted Deck</h2>
+	<div id="shuffled">
+	</div>
+
+</body>
+</html>

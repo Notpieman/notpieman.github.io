@@ -59,14 +59,11 @@
 		    	var randomNumber = Math.floor(Math.random() * 5); // get a number between 0 and 2
 		    	var computerChoices = ['rock','paper','scissors','water','fire']; // possible choices for computer
 		    	var computerChoice = computerChoices[randomNumber]; // use the random number select to pick a choice for the computer
-
 		    	// the following creates an array of the current choices and adds that to a global 
 		    	// array that tracks choices for each round played
 		    	gameHistory.push( "round " + roundNumber + '<img src="' + computerChoice + '.png" id="computerChoice">' + '<img src="' + userChoice + '.png" id="userChoice"> <br>');
-
 				var results = '';
 				results = 'Computer selected<br /><img src="' + computerChoice + '.png" id="computerChoice" /><br />';
-
 				/*
 				add code here to determine winner
 				*/
