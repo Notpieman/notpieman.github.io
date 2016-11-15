@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Blackjack</title>
+	<style type="text/css">
+		body {background: url('table.png') #dadada no-repeat center top; }
+		#cards img, #shuffled img { height: 50px; float: left; margin: 5px; }
+		#dealer { width: 400px; height: 220px; margin: auto; text-align: center; }
+		#dealer img { width: 70px; }
+		#deck p { color: #fff; font-size: 50px; font-weight: bold; margin: 0; padding: 0; }
+		#deck img { width: 70px; }
+		#player { width: 400px; height: 140px; margin: auto; margin-top: 105px; text-align: center; }
+		#player-cards { height: 105px; }
+		#player img { width: 70px; }
+	</style>
+	     
+	<script src="http://code.jquery.com/jquery-3.1.1.slim.js"></script>
+	
+	<script>
+	
+		var deck, dealerCards, playerCards;
+			var playerValue = 0;
+			var dealerValue = 0;
+			var playerCards = [];
+			var dealerCards = [];
+			var deck = [];
+		
+		function getNewDeck() {
+			var deck = [];
+			var suits = ['clubs','spades','diamonds','hearts'];
+			var face = ['king', 'queen', 'jack', 'ace']
+			
+			var king = [];
+			var queen = [];
+			var jack = [];
+			var ace = [];
+			/**
+			* build an array of card objects. A single card object should look like the following:
+			*	{suit: 'clubs', face: 'jack', value: 11}
+			*	or
+			*	{suit: 'hearts', face: 2, value: 2}
+			**/
+			
+			function card(suit, face, value) {
+				this.suit = suit,
+				this.face = face,
+				this.value = value
+			}
+			for(var i =0; i<suits.length; i++){
+				for(var j =2; j<11; j++){
+					deck.push(card[j] = new card(suits[i], j.toString(), j));
+				}
+				//kings
+					deck.push(king[i] = new card(suits[i], 'king', 10));
+				//jacks
+					deck.push(jack[i] = new card(suits[i], 'jack', 10));
+				//queens
+					deck.push(queen[i] = new card(suits[i], 'queen', 10));
+				//aces
+					deck.push(ace[i] = new card(suits[i], 'ace', 11));
+			}
+			return deck;
+
+		 }
+		
+		var newDeck = [];
+		 function shuffleDeck(deck) {
+			
+			/**
+			* Write the code to shuffle the deck.
+			* You'll use push and splice methods here
+			**/
+			var randomNum = 0;
+			while(deck.length > 0){
+			randomNum = Math.floor((Math.random() * deck.length) + 0);
+			newDeck.push(deck[randomNum]);
+			deck.splice(randomNum, 1);
+			}
+			return newDeck;
+			
+		}
+		
+		function printCards(theCards,location) {
+			var cards = '';
+			var dcards = '';
+			
+			// add code here that builds a string of images that represent the cards
+			if(theCards = "player"){
+			for (var i =0; i< playerCards.length; i++){
+			cards += '<img src="cards/' + playerCards[i].face + '_' + 'of' + '_' + playerCards[i].suit + '.png">';
+			$('#' + location).html(cards);
+			}
+			}
+			if(theCards = "dealer"){
+			for (var i = 0; i< dealerCards.length; i++){
+			dcards += '<img src="cards/' + dealerCards[i].face + '_' + 'of' + '_' + dealerCards[i].suit + '.png">';
+			$('#' + location).html(dcards);
+
+			}
+			}
+		}
+		
+		function getCard() {
+			return deck.pop();
+		}
+		
+		function displayWinner(winner) {
+			$('#deck').html('<p>' + winner + '</p>');
+		}
+		
+		
+		function countCards(theHand) {
+			
+			if(theHand = "player"){
+			playerValue = 0;
+			for(var i = 0; i<playerCards.length; i++){
+			playerValue = playerValue += playerCards[i].value;
+			 
+			}
+			}
+			
+			else if(theHand = "dealer"){
+			for(var i = 0; i<dealerCards.length; i++){
+			dealerValue = dealerValue += dealerCards[i].value;
+
+			}
+			}
+			// find the point total of the hand.
+			// aces are counted as 11 for this week.
+			
+		}
+		//HEEEEERe
+		function stand() {
+			for (var i = dealerCards.length; dealerValue < 17; i++){
+							for (var i = 0; i < dealerCards.length; i++)
+			{
+				if(dealerCards[i].face == "ace"){
+					if(dealerValue + dealerCards[i].value > 21){
+						dealerCards[i].value = 1;
+					}
+			}
+			} 	
+			dealerCards.push(getCard());
+			printCards("dealer",'dealer-cards');
+			dealerValue += dealerCards[i].value;
+			if(dealerValue > 21){
+				displayWinner("player")
+			}
+			else if(dealerValue > playerValue){
+			displayWinner("dealer")
+			}
+			else if(playerValue > dealerValue){
+				displayWinner("player")
+			}
+			}
+			// if the player stands, then the dealer takes cards as long as the dealer's hand is < 17.
+			// Once hand is greater than 17, then game is over.  If the dealer is >= 17 and <= 21, then dealer wins.
+			// If dealer is > 21, then player wins.
+		}
+		
+		function hit() {
+			for (var i = 0; i < playerCards.length; i++)
+			{
+				if(playerCards[i].face == "ace"){
+					if(playerValue + 11 > 21){
+						playerCards[i].value = 1;
+					}
+			}
+		}	
+			
+			if (playerValue <= 21){
+			playerCards.push(getCard());
+			countCards("player");
+			printCards("player",'player-cards');
+			}
+			if(playerValue > 21){
+				displayWinner("dealer")
+		}
+			// Add another card to the players hand.  If the card causes player
+			// to bust, then end game.  Player busts when total of cards is greater than 21.
+			// be sure to handle the "ACE"  the ace could be either 1 or 11
+		}
+		
+		function game() {
+			// init each player
+			playerCards = [];
+			dealerCards = [];
+			
+			playerValue = 0;
+			dealerValue = 0;
+			
+			// init deck
+			deck = shuffleDeck(getNewDeck());
+			
+			// show deck 
+			$('#deck').html('<img src="back.png" />');
+			
+			// clear any cards that dealer may have showing from last hand
+			document.getElementById("dealer-cards").innerHTML = '';
+			printCards(dealerCards,'dealer-cards');
+``			//I'm not sure why the print card function is not clearing the dealer's hand so i just replaced the content in the div
+			
+			// deal first two cards to player
+			playerCards.push(getCard());
+			playerCards.push(getCard());
+			
+			// print hand
+			printCards(playerCards,'player-cards');
+			for (var i= 0; i < playerCards.length; i++){
+			}
+			countCards("player")
+		}
+	</script>
+</head>
+<body>
+	<div id="dealer">
+		<div id="deck"></div>
+		<div id="dealer-cards"></div>
+	</div>
+	<div id="player">
+		<div id="player-cards"></div>
+		<div id="buttons">
+			<button onclick="hit();">Hit</button>
+			<button onclick="stand();">Stand</button>
+			<button onclick="game();">New Game</button>
+		</div>
+	</div>
+</body>
+</html>
