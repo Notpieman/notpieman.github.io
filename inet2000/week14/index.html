@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Sheridan Campus Room Locator</title>
+	<style type="text/css">
+		#map-container, #search-container { text-align: center; position: relative; }
+		#map { height: 100%; }
+		#pin-container { position: absolute; display: none; }
+		#caption { background: yellow; padding: 10px; color: #000; border-radius: 4px; position: absolute; }
+	</style>
+	<script type="text/javascript">
+	
+		var scaleX = 1;
+		var scaleY = 1;
+		var coordinateX = 0;
+		var coordinateY = 0;
+	
+	
+		function rooms(locationX, locationY, name){
+		this.locationX = locationX;
+		this.locationY = locationY;
+		this.name = name;
+		}
+		
+		
+		//Declaring room objects
+		var roomAdvising = new rooms(305, 170, "advising")
+		var room125 = new rooms(305,170, "125")
+		var roomShop = new rooms(0, 0, "Shop")
+		
+		//Available rooms
+		
+		/* new code start */
+		// an easier way to define your rooms
+		var roomList2 = [
+			{name: 'Advising', locationX: 319, locationY: 170},
+			{name: '125', locationX: 435, locationY: 230},
+			{name: 'Shop', locationX: 330, locationY: 55},
+			{name: 'Rec', locationX: 850, locationY: 611},
+			{name: '215', locationX: 440, locationY: 220},
+			{name: 'Cafeteria', locationX: 280, locationY: 100}
+		];
+		/* new code end */
+		
+		
+		// locate room
+		function lookup(room) {	
+		
+			//var a = roomList.indexOf(room)
+			/* new code start */
+			var roomList2Index = -1;
+			for (var i = 0; i<roomList2.length; i++){
+				if (roomList2[i].name == room) {
+					roomList2Index = i;	
+				}
+			}
+			if (roomList2Index == -1) {
+				alert("I'm sorry I can't locate that room.");
+				return;
+			}
+			
+			coordinateX = parseInt(roomList2[roomList2Index].locationX * scaleX - 14);
+			coordinateY = parseInt(roomList2[roomList2Index].locationY * scaleY - 64);
+			/* new code end */
+		
+			/*
+			for (var i = 0; i<roomList.length; i++){
+			if(roomList[i].name == room){
+			coordinateX = roomList[i].locationX * scaleX;
+			coordinateY = roomList[i].locationY * scaleY;
+			}
+			//Room not found message
+			else if(i == roomList.length -1){
+			alert("I'm sorry I can't locate that room.")}
+			}
+			*/
+		
+			// the following gets the top left corner location of the object specified.
+			var position = $('#map').offset(); // example: position = { left: 20, top: 45 }
+			console.log(position);
+			/* new code start */
+			console.log('Old coordinates (' + roomList2[roomList2Index].locationX + ',' + roomList2[roomList2Index].locationY + ')');
+			console.log('New coordinates (' + coordinateX + ',' + coordinateY + ')');
+			/* new code end */
+			var css = 'left: ' + (parseInt(position.left) + coordinateX) + 'px; ' + 'top: ' + (parseInt(position.top) + coordinateY) + 'px;'
+			$('#pin-container').attr('style', css);
+			$('#caption').html(room);
+			$('#pin-container').show();
+			return false;
+		}
+		
+		function adjustMap() {
+			// get height of window in pixel so we can adjust the container
+			// and leave some space at the bottom of the page for the form.
+			var windowHeight = $(window).height() - 100;
+			$('#map-container').height(windowHeight);
+			$('#pin-container').hide();
+			/*
+			widthNew = $(window).width(); 
+			heightNew = $(window).height(); 
+			scaleX = widthNew / widthOrig;
+			scaleY = heightNew / heightOrig;
+			*/
+			
+			/* new code start */
+			widthNew = $('#map').width();
+			heightNew = $('#map').height();
+			scaleX = widthNew / 1200; // 1200 is the width of the original map before it was scaled.
+			scaleY = heightNew / 808; // 808 is the height of the original map before it was scaled.
+			
+			console.log('Image wXh is ' + widthNew + 'x' + heightNew + ', scale for x and y is ' + scaleX + ' and ' + scaleY);
+			/* new code end */
+		}
+	</script>
+</head>
+<body>
+	<div id="map-container">
+		<div id="pin-container" >
+			<img id="pin" src="pin.png" />
+			<div id="caption"></div>
+		</div>
+		<img id="map" src="map.jpg" />
+	</div>
+	<div id="search-container">
+		<form action="#">
+			<label>Enter room name or number:</label>
+			<input type="text" name="room" id="room">
+			<button onclick="lookup($('#room').val());">Locate</button>
+		</form>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.js"></script>
+
+	<script>	
+		// run when page first loads
+		/*
+		var widthNew;
+		var heightNew;
+		var widthOrig = $(window).width();
+		var heightOrig = $(window).height();
+		*/
+	  	$(document).ready( function(){
+	  		//Run function when browser  resize
+		  	$(window).resize( adjustMap);
+	  		adjustMap();
+	  	});
+		
+
+	</script>	
+</body>
+</html>
