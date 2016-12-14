@@ -15,19 +15,8 @@
 		var scaleY = 1;
 		var coordinateX = 0;
 		var coordinateY = 0;
-	
-	
-		function rooms(locationX, locationY, name){
-		this.locationX = locationX;
-		this.locationY = locationY;
-		this.name = name;
-		}
 		
 		
-		//Declaring room objects
-		var roomAdvising = new rooms(305, 170, "advising")
-		var room125 = new rooms(305,170, "125")
-		var roomShop = new rooms(0, 0, "Shop")
 		
 		//Available rooms
 		
@@ -134,12 +123,7 @@
 
 	<script>	
 		// run when page first loads
-		/*
-		var widthNew;
-		var heightNew;
-		var widthOrig = $(window).width();
-		var heightOrig = $(window).height();
-		*/
+		
 	  	$(document).ready( function(){
 	  		//Run function when browser  resize
 		  	$(window).resize( adjustMap);
